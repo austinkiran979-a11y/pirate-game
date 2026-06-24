@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body style="margin:0;overflow:hidden;background:#001d3d">
+<canvas id="g"></canvas>
+<script>
+const c=g,cx=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+
+let p={x:100,y:100},k={},score=0;
+let treasure={x:Math.random()*1000+100,y:Math.random()*500+50};
+
+onkeydown=e=>k[e.key.toLowerCase()]=1;
+onkeyup=e=>k[e.key.toLowerCase()]=0;
+
+function game(){
+ if(k.w)p.y-=5;
+ if(k.s)p.y+=5;
+ if(k.a)p.x-=5;
+ if(k.d)p.x+=5;
+
+ if(Math.hypot(p.x-treasure.x,p.y-treasure.y)<30){
+   score++;
+   treasure.x=Math.random()*c.width;
+   treasure.y=Math.random()*c.height;
+ }
+
+ cx.fillStyle="#001d3d";
+ cx.fillRect(0,0,c.width,c.height);
+
+ cx.fillStyle="gold";
+ cx.beginPath();
+ cx.arc(treasure.x,treasure.y,15,0,7);
+ cx.fill();
+
+ cx.fillStyle="red";
+ cx.fillRect(p.x-10,p.y-10,20,20);
+
+ cx.fillStyle="white";
+ cx.font="30px Arial";
+ cx.fillText("Treasure: "+score,20,40);
+
+ requestAnimationFrame(game);
+}
+game();
+</script>
+</body>
+</html>
